@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/entities/card_entity.dart';
 import 'package:notes_app/widgets/card_widget.dart';
+import 'package:notes_app/widgets/text_field1.dart';
 
 class NotesView extends StatelessWidget {
   const NotesView({
@@ -56,10 +57,18 @@ Widget cardsListView() {
 }
 
 class ModalSheet extends StatelessWidget {
-  const ModalSheet({super.key});
+  ModalSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Column(children: [TextField(), TextField()]));
+    return Container(
+        child: Column(children: [
+      SizedBox(
+        height: 25,
+      ),
+      TextField1(
+        hintText: 'Title',
+      )
+    ]));
   }
 }
