@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
-import 'package:notes_app/entities/card_entity.dart';
+import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/widgets/card_widget.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
@@ -39,7 +39,7 @@ Widget cardsListView() {
         padding: EdgeInsets.zero,
         itemBuilder: (context, index) {
           return CardWidget(
-            cardEntity: CardEntity(
+            cardEntity: CardModel(
                 color: Colors.cyan,
                 title: 'Note #1',
                 descr: 'This is the fst Note in the app',

@@ -9,7 +9,7 @@ class NoteEditView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppBar(title: 'Note Edit', icon: Icons.check),
-        body: Padding(
+        body: Container(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [

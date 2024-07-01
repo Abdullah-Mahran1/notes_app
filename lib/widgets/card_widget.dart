@@ -1,11 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:notes_app/entities/card_entity.dart';
+import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/views/note_edit_view.dart';
 
 class CardWidget extends StatelessWidget {
-  CardEntity cardEntity;
+  CardModel cardEntity;
   CardWidget({super.key, required this.cardEntity});
 
   @override
