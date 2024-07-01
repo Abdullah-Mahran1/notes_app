@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/entities/card_entity.dart';
 import 'package:notes_app/widgets/card_widget.dart';
+import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
 
 class NotesView extends StatelessWidget {
@@ -22,19 +23,10 @@ class NotesView extends StatelessWidget {
         },
         child: const Icon(Icons.add),
       ),
-      appBar: AppBar(
-          title: const Text(
-            'Notes',
-            style: TextStyle(fontSize: 32),
-          ),
-          actions: [
-            IconButton(
-                icon: const Icon(
-                  Icons.search,
-                  size: 32,
-                ),
-                onPressed: () {})
-          ]),
+      appBar: const CustomAppBar(
+        title: 'Notes',
+        icon: Icons.search,
+      ),
       body: Expanded(child: cardsListView()),
     );
   }

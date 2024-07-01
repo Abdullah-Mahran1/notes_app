@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:notes_app/constants.dart';
 
 class TextField1 extends StatelessWidget {
-  Color focusBorderColor;
+  Color focusColor;
   String hintText;
   int maxLines;
   TextField1(
       {super.key,
-      this.focusBorderColor = Colors.white,
+      this.focusColor = primaryColor,
       this.hintText = '',
       this.maxLines = 1});
 
@@ -16,7 +16,7 @@ class TextField1 extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextField(
-        cursorColor: primaryColor,
+        cursorColor: focusColor,
         maxLines: maxLines,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(
@@ -25,8 +25,7 @@ class TextField1 extends StatelessWidget {
             hintText: hintText,
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),
-                borderSide:
-                    BorderSide(color: focusBorderColor ?? primaryColor)),
+                borderSide: BorderSide(color: focusColor ?? primaryColor)),
             border:
                 OutlineInputBorder(borderRadius: BorderRadius.circular(16))),
       ),
