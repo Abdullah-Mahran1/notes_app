@@ -17,6 +17,6 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Notes App',
         theme: ThemeData(brightness: Brightness.dark, fontFamily: 'Lato'),
-        home: NotesView());
+        home: const NotesView());
   }
 }

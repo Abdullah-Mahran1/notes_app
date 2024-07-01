@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notes_app/constants.dart';
 import 'package:notes_app/entities/card_entity.dart';
 import 'package:notes_app/widgets/card_widget.dart';
 import 'package:notes_app/widgets/text_field1.dart';
@@ -66,8 +67,26 @@ class ModalSheet extends StatelessWidget {
       SizedBox(
         height: 25,
       ),
-      TextField1(
-        hintText: 'Title',
+      TextField1(hintText: 'Title'),
+      SizedBox(height: 30),
+      TextField1(hintText: 'Content', maxLines: 5),
+      Expanded(
+          child: Placeholder(
+        color: Colors.transparent,
+      )),
+      Container(
+        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 8),
+        width: MediaQuery.of(context).size.width,
+        height: 130,
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Text(
+            'Submit',
+            style: TextStyle(color: Colors.black, fontSize: 18),
+          ),
+          style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(primaryColor)),
+        ),
       )
     ]));
   }
