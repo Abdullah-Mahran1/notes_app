@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/cubits/cubit/add_card_cubit.dart';
 import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/widgets/card_widget.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class NotesView extends StatelessWidget {
   const NotesView({
@@ -12,22 +15,29 @@ class NotesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (context) {
-                return ModalSheet();
-              });
-        },
-        child: const Icon(Icons.add),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AddCardCubit(),
+        ),
+      ],
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return ModalSheet();
+                });
+          },
+          child: const Icon(Icons.add),
+        ),
+        appBar: const CustomAppBar(
+          title: 'Notes',
+          icon: Icons.search,
+        ),
+        body: Expanded(child: cardsListView()),
       ),
-      appBar: const CustomAppBar(
-        title: 'Notes',
-        icon: Icons.search,
-      ),
-      body: Expanded(child: cardsListView()),
     );
   }
 }
@@ -63,52 +73,67 @@ class _ModalSheetState extends State<ModalSheet> {
   String? title, description;
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: Container(
-          child: Column(children: [
-        const SizedBox(
-          height: 25,
-        ),
-        TextField1(
-          hintText: 'Title',
-          onSaved: (val) {
-            title = val;
-          },
-        ),
-        // const SizedBox(height: 20),
-        TextField1(
-          hintText: 'Content',
-          maxLines: 5,
-          onSaved: (val) {
-            description = val;
-          },
-        ),
-        Expanded(
-            child: Placeholder(
-          color: Colors.transparent,
-        )),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
-          width: MediaQuery.of(context).size.width,
-          height: 90,
-          child: ElevatedButton(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState!.save();
-              } else {
-                autovalidateMode = AutovalidateMode.always;
-              }
-            },
-            style: ButtonStyle(
-                backgroundColor: WidgetStateProperty.all(primaryColor)),
-            child: const Text(
-              'Submit',
-              style: TextStyle(color: Colors.black, fontSize: 18),
-            ),
+    return BlocConsumer<AddCardCubit, AddCardState>(
+      listener: (context, state) {
+        if (state is AddCardFailed) {
+          print('failed: ${state.errorMsg}');
+        } else if (state is AddCardSucceeded) {
+          Navigator.pop();
+        }
+      },
+      builder: (context, state) {
+        return ModalProgressHUD(
+          inAsyncCall: state is AddCardLoading ? true : false,
+          child: Form(
+            key: formKey,
+            child: Container(
+                child: Column(children: [
+              const SizedBox(
+                height: 25,
+              ),
+              TextField1(
+                hintText: 'Title',
+                onSaved: (val) {
+                  title = val;
+                },
+              ),
+              // const SizedBox(height: 20),
+              TextField1(
+                hintText: 'Content',
+                maxLines: 5,
+                onSaved: (val) {
+                  description = val;
+                },
+              ),
+              Expanded(
+                  child: Placeholder(
+                color: Colors.transparent,
+              )),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 8),
+                width: MediaQuery.of(context).size.width,
+                height: 90,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formKey.currentState!.validate()) {
+                      formKey.currentState!.save();
+                    } else {
+                      autovalidateMode = AutovalidateMode.always;
+                    }
+                  },
+                  style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(primaryColor)),
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(color: Colors.black, fontSize: 18),
+                  ),
+                ),
+              )
+            ])),
           ),
-        )
-      ])),
+        );
+      },
     );
   }
 }
