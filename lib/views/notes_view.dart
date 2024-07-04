@@ -78,7 +78,7 @@ class _ModalSheetState extends State<ModalSheet> {
         if (state is AddCardFailed) {
           print('failed: ${state.errorMsg}');
         } else if (state is AddCardSucceeded) {
-          Navigator.pop();
+          Navigator.pop(context);
         }
       },
       builder: (context, state) {
