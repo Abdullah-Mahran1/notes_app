@@ -11,11 +11,11 @@ class NoteEditView extends StatelessWidget {
         appBar: const CustomAppBar(title: 'Note Edit', icon: Icons.check),
         body: Container(
           padding: const EdgeInsets.all(8.0),
-          child: Column(
+          child: const Column(
             children: [
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               TextField1(hintText: 'Title'),
-              const SizedBox(height: 30),
+              SizedBox(height: 30),
               TextField1(hintText: 'Content', maxLines: 5),
             ],
           ),

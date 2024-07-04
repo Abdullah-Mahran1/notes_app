@@ -7,7 +7,7 @@ part 'card_model.g.dart';
 @HiveType(typeId: 0)
 class CardModel extends HiveObject {
   @HiveField(0)
-  Color color;
+  int color;
 
   @HiveField(1)
   String title;
@@ -16,7 +16,7 @@ class CardModel extends HiveObject {
   String descr;
 
   @HiveField(3)
-  DateTime date;
+  String date;
   CardModel(
       {required this.color,
       required this.title,

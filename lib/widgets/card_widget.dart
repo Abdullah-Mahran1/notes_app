@@ -5,8 +5,8 @@ import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/views/note_edit_view.dart';
 
 class CardWidget extends StatelessWidget {
-  CardModel cardEntity;
-  CardWidget({super.key, required this.cardEntity});
+  final CardModel cardEntity;
+  const CardWidget({super.key, required this.cardEntity});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,8 @@ class CardWidget extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: cardEntity.color),
+            borderRadius: BorderRadius.circular(20),
+            color: Color(cardEntity.color)),
         width: double.infinity,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -30,15 +31,16 @@ class CardWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Expanded(
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             cardEntity.title,
-                            style: TextStyle(fontSize: 32, color: Colors.black),
+                            style: const TextStyle(
+                                fontSize: 32, color: Colors.black),
                             textAlign: TextAlign.start,
                           ),
                           Text(

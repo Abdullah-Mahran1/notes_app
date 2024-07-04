@@ -11,6 +11,7 @@ class AddCardCubit extends Cubit<AddCardState> {
 
   addNote(CardModel card) {
     emit(AddCardLoading());
+    Future.delayed(const Duration(milliseconds: 500));
 
     try {
       var cardBox = Hive.box<CardModel>(notesBox);

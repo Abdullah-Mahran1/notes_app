@@ -17,10 +17,10 @@ class CardModelAdapter extends TypeAdapter<CardModel> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CardModel(
-      color: fields[0] as Color,
+      color: fields[0] as int,
       title: fields[1] as String,
       descr: fields[2] as String,
-      date: fields[3] as DateTime,
+      date: fields[3] as String,
     );
   }
 
