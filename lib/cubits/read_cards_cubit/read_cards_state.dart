@@ -8,9 +8,9 @@ final class ReadCardsInitial extends ReadCardsState {}
 final class ReadCardsLoading extends ReadCardsState {}
 
 final class ReadCardsSucceeded extends ReadCardsState {
-  final List<CardModel> notes;
+  final List<CardModel> cards;
 
-  ReadCardsSucceeded({required this.notes});
+  ReadCardsSucceeded({required this.cards});
 }
 
 final class ReadCardsFailed extends ReadCardsState {

@@ -14,13 +14,11 @@ class AddCardCubit extends Cubit<AddCardState> {
     Future.delayed(const Duration(milliseconds: 500));
 
     try {
-      var cardBox = Hive.box<CardModel>(notesBox);
+      var cardBox = Hive.box<CardModel>(cardBoxName);
       cardBox.add(card);
       emit(AddCardSucceeded());
     } catch (e) {
       emit(AddCardFailed(errorMsg: 'exception was thrown: ${e.toString()}'));
-
-      // TODO
     }
   }
 }

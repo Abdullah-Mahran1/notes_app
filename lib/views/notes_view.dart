@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/constants.dart';
 import 'package:notes_app/cubits/add_cards_cubit/add_card_cubit.dart';
+import 'package:notes_app/cubits/read_cards_cubit/read_cards_cubit.dart';
 import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/widgets/card_widget.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
@@ -37,19 +38,20 @@ class NotesView extends StatelessWidget {
 }
 
 Widget cardsListView() {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 12.0),
-    child: ListView.builder(
-        padding: EdgeInsets.zero,
-        itemBuilder: (context, index) {
-          return CardWidget(
-            cardEntity: CardModel(
-                color: Colors.cyan.value,
-                title: 'Note #1',
-                descr: 'This is the fst Note in the app',
-                date: DateTime(2019, 1, 30).toString()),
-          );
-        }),
+  return BlocBuilder<ReadCardsCubit, ReadCardsState>(
+    builder: (context, state) {
+      List<CardModel> cards =
+          BlocProvider.of<ReadCardsCubit>(context).fetchAll() ?? [];
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: ListView.builder(
+            itemCount: cards.length,
+            padding: EdgeInsets.zero,
+            itemBuilder: (context, index) {
+              return CardWidget(cardModel: cards[index]);
+            }),
+      );
+    },
   );
 }
 
@@ -70,8 +72,9 @@ class _ModalSheetState extends State<ModalSheet> {
     return BlocConsumer<AddCardCubit, AddCardState>(
       listener: (context, state) {
         if (state is AddCardFailed) {
-          print('failed: ${state.errorMsg}');
+          debugPrint('failed: ${state.errorMsg}');
         } else if (state is AddCardSucceeded) {
+          debugPrint('printed successfully}');
           Navigator.pop(context);
         }
       },
@@ -120,7 +123,7 @@ class _ModalSheetState extends State<ModalSheet> {
                                 color: Colors.orangeAccent.value,
                                 title: title!,
                                 descr: description!,
-                                date: DateTime.now().toString());
+                                date: DateTime.now().toString().split(' ')[0]);
                             BlocProvider.of<AddCardCubit>(context)
                                 .addNote(cardModel);
                           } else {

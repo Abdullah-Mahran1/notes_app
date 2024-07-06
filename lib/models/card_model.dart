@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:hive_flutter/adapters.dart';
 
 part 'card_model.g.dart';

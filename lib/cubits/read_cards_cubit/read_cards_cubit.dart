@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:meta/meta.dart';
 import 'package:notes_app/constants.dart';
@@ -11,13 +12,17 @@ class ReadCardsCubit extends Cubit<ReadCardsState> {
 
   fetchAll() {
     emit(ReadCardsLoading());
+    var cardBox = Hive.box<CardModel>(cardBoxName);
+    debugPrint('Attempting to read ${cardBox.length} cards from Hive');
     try {
-      var cardBox = Hive.box<CardModel>(notesBox);
-      emit(ReadCardsSucceeded(notes: cardBox.values.toList()));
+      List<CardModel> cards = cardBox.values.toList();
+      emit(ReadCardsSucceeded(cards: cards));
+      print('Successfully read ${cards.length} cards');
+      return cards;
     } catch (e) {
-      emit(ReadCardsFailed(errorMsg: 'exception was thrown: ${e.toString()}'));
-
-      // TODO
+      debugPrint('Error reading from Hive: $e');
+      // Handle the error gracefully, maybe return an empty list
+      return [];
     }
   }
 }

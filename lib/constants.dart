@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 const primaryColor = Colors.cyan;
-const notesBox = 'notes_box';
+const cardBoxName = 'notes_box';
 
 
 // Steps of creating a bloc:
