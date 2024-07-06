@@ -18,6 +18,7 @@ class NotesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        backgroundColor: primaryColor.withOpacity(0.5),
         onPressed: () {
           showModalBottomSheet(
               isScrollControlled: true,
@@ -26,11 +27,16 @@ class NotesView extends StatelessWidget {
                 return ModalSheet();
               });
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add,
+          size: 36,
+          color: Colors.white,
+        ),
       ),
-      appBar: const CustomAppBar(
+      appBar: CustomAppBar(
         title: 'Notes',
-        icon: Icons.search,
+        iconButton:
+            IconButton(icon: const Icon(Icons.search), onPressed: () {}),
       ),
       body: cardsListView(),
     );
@@ -74,6 +80,7 @@ class _ModalSheetState extends State<ModalSheet> {
         if (state is AddCardFailed) {
           debugPrint('failed: ${state.errorMsg}');
         } else if (state is AddCardSucceeded) {
+          BlocProvider.of<ReadCardsCubit>(context).fetchAll();
           debugPrint('printed successfully}');
           Navigator.pop(context);
         }

@@ -3,10 +3,17 @@ import 'package:notes_app/constants.dart';
 
 class TextField1 extends StatelessWidget {
   final String hintText;
+  final String initialText;
   final int maxLines;
   final void Function(String?)? onSaved;
+  final void Function(String?)? onChanged;
   const TextField1(
-      {super.key, this.hintText = '', this.maxLines = 1, this.onSaved});
+      {super.key,
+      this.hintText = '',
+      this.maxLines = 1,
+      this.initialText = '',
+      this.onSaved,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +21,7 @@ class TextField1 extends StatelessWidget {
       padding: const EdgeInsets.only(left: 8, right: 8, bottom: 16),
       child: TextFormField(
         onSaved: onSaved,
+        onChanged: onChanged,
         validator: (value) {
           if (value?.isEmpty ?? true) {
             return 'field is required';
@@ -23,10 +31,10 @@ class TextField1 extends StatelessWidget {
         },
         cursorColor: primaryColor,
         maxLines: maxLines,
+        initialValue: initialText,
         decoration: InputDecoration(
             contentPadding: const EdgeInsets.symmetric(
                 vertical: 20.0, horizontal: 12), // Adjusts the vertical padding
-
             hintText: hintText,
             focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(16),

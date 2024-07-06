@@ -4,11 +4,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
     required this.title,
-    required this.icon,
+    required this.iconButton,
   });
 
   final String title;
-  final IconData icon;
+  final IconButton iconButton;
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(8),
             color: Colors.white.withOpacity(0.1),
           ),
-          child: IconButton(
-            icon: Icon(
-              icon,
-              size: 32,
-            ),
-            onPressed: () {},
-          ),
+          child: iconButton,
         ),
       ],
     );

@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:meta/meta.dart';
 import 'package:notes_app/constants.dart';
+import 'package:notes_app/cubits/read_cards_cubit/read_cards_cubit.dart';
 import 'package:notes_app/models/card_model.dart';
 
 part 'add_card_state.dart';

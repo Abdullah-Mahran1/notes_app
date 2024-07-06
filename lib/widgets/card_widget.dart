@@ -14,7 +14,7 @@ class CardWidget extends StatelessWidget {
       onTap: () {
         log('card tapped');
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const NoteEditView();
+          return NoteEditView(card: cardModel);
         }));
       },
       child: Container(
@@ -61,7 +61,9 @@ class CardWidget extends StatelessWidget {
                   Column(
                     children: [
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            cardModel.delete();
+                          },
                           icon: const Icon(
                             Icons.delete,
                             color: Colors.black,
