@@ -5,12 +5,9 @@ import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
 
-import '../models/card_model.dart';
-import '../widgets/custom_app_bar.dart';
-
 class NoteEditView extends StatelessWidget {
-  NoteEditView({super.key, required this.card});
-  CardModel card;
+  const NoteEditView({super.key, required this.card});
+  final CardModel card;
 
   @override
   Widget build(BuildContext context) {

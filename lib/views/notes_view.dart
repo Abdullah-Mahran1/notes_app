@@ -9,6 +9,8 @@ import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+List colors = [0xffFFB703, 0xffFB8500, 0xff219EBC, 0xff8ECAE6];
+
 class NotesView extends StatelessWidget {
   const NotesView({
     super.key,
@@ -113,10 +115,7 @@ class _ModalSheetState extends State<ModalSheet> {
                         description = val;
                       },
                     ),
-                    const Expanded(
-                        child: Placeholder(
-                      color: Colors.transparent,
-                    )),
+                    ColorsListView(),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 8),
@@ -151,6 +150,86 @@ class _ModalSheetState extends State<ModalSheet> {
           ),
         );
       },
+    );
+  }
+}
+
+class ColorsListView extends StatefulWidget {
+  const ColorsListView({
+    super.key,
+  });
+
+  @override
+  State<ColorsListView> createState() => _ColorsListViewState();
+}
+
+class _ColorsListViewState extends State<ColorsListView> {
+  int selectedIndex = 0;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Center(
+      child: ListView.builder(
+          shrinkWrap: true,
+          // padding: EdgeInsets.symmetric(
+          // horizontal: MediaQuery.of(context).size.width /
+          //     (2 * colors.length - 1)),
+          itemCount: colors.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return ColorWidget(
+                bgColor: colors[index],
+                isSelected: selectedIndex == index,
+                onTap: () {
+                  setState(() {
+                    selectedIndex = index;
+                  });
+                });
+          }),
+    )
+        //   child: Placeholder(
+        // color: Colors.transparent,
+        );
+  }
+}
+
+class ColorWidget extends StatelessWidget {
+  const ColorWidget(
+      {super.key, required this.bgColor, required this.isSelected, this.onTap});
+  final int bgColor;
+  final bool isSelected;
+  final Function()? onTap;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Center(
+          child: isSelected
+              ? CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 16,
+                  child: InkWell(
+                    onTap: onTap,
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 16,
+                      child: CircleAvatar(
+                        backgroundColor: Color(bgColor),
+                        radius: 14,
+                      ),
+                    ),
+                  ),
+                )
+              : CircleAvatar(
+                  backgroundColor: Colors.transparent,
+                  radius: 16,
+                  child: InkWell(
+                    onTap: onTap,
+                    child: CircleAvatar(
+                      backgroundColor: Color(bgColor),
+                      radius: 16,
+                    ),
+                  ))),
     );
   }
 }

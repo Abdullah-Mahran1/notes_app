@@ -31,31 +31,29 @@ class CardWidget extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            cardModel.title,
-                            maxLines: 1,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              color: Colors.black,
-                            ),
-                            textAlign: TextAlign.start,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          cardModel.title,
+                          maxLines: 1,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            color: Colors.black,
                           ),
-                          Text(
-                            cardModel.descr,
-                            maxLines: 3,
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black.withOpacity(0.7)),
-                            textAlign: TextAlign.start,
-                          )
-                        ],
-                      ),
+                          textAlign: TextAlign.start,
+                        ),
+                        Text(
+                          cardModel.descr,
+                          maxLines: 3,
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black.withOpacity(0.7)),
+                          textAlign: TextAlign.start,
+                        )
+                      ],
                     ),
                   ),
                   Column(
