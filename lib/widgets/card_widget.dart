@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:notes_app/models/card_model.dart';
 import 'package:notes_app/views/note_edit_view.dart';
+import 'package:notes_app/widgets/delete_dialog_widget.dart';
 
 class CardWidget extends StatelessWidget {
   final CardModel cardModel;
@@ -21,7 +23,7 @@ class CardWidget extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: Color(cardModel.color)),
-        width: double.infinity,
+        width: double.maxFinite,
         margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 25),
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         height: 200,
@@ -36,38 +38,66 @@ class CardWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          cardModel.title,
-                          maxLines: 1,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            color: Colors.black,
+                        ConstrainedBox(
+                          constraints:
+                              const BoxConstraints.tightFor(width: 230),
+                          child: Directionality(
+                            textDirection:
+                                intl.Bidi.startsWithRtl(cardModel.title)
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                            child: Text(
+                              cardModel.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 24,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
                           ),
-                          textAlign: TextAlign.start,
                         ),
-                        Text(
-                          cardModel.descr,
-                          maxLines: 3,
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black.withOpacity(0.7)),
-                          textAlign: TextAlign.start,
-                        )
+                        ConstrainedBox(
+                          constraints:
+                              const BoxConstraints.tightFor(width: 230),
+                          child: Directionality(
+                            textDirection:
+                                intl.Bidi.startsWithRtl(cardModel.descr)
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
+                            child: Text(
+                              cardModel.descr,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                              textAlign: TextAlign.start,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  Column(
-                    children: [
-                      IconButton(
+                  Flexible(
+                    child: Column(
+                      children: [
+                        IconButton(
                           onPressed: () {
-                            cardModel.delete();
+                            showDeleteConfirmationDialog(context, () {
+                              cardModel.delete();
+                            });
                           },
                           icon: const Icon(
                             Icons.delete,
                             color: Colors.black,
-                          )),
-                    ],
-                  )
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               Align(

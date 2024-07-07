@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:notes_app/constants.dart';
@@ -9,7 +11,17 @@ import 'package:notes_app/widgets/custom_app_bar.dart';
 import 'package:notes_app/widgets/text_field1.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-List colors = [0xffFFB703, 0xffFB8500, 0xff219EBC, 0xff8ECAE6];
+List colors = [
+  0xffFFB703,
+  0xffFB8500,
+  0xff219EBC,
+  0xff8ECAE6,
+  0xffE24E1B,
+  0xFFDA7635,
+  0xFFD6D4A0,
+  0xFFDB995A
+];
+List<CardModel> noteCards = [];
 
 class NotesView extends StatelessWidget {
   const NotesView({
@@ -37,26 +49,71 @@ class NotesView extends StatelessWidget {
       ),
       appBar: CustomAppBar(
         title: 'Notes',
-        iconButton:
-            IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+        iconButton: IconButton(
+            icon: const Icon(Icons.search),
+            onPressed: () {
+              showSearch(context: context, delegate: CustomSearchDeligate());
+            }),
       ),
       body: cardsListView(),
     );
   }
 }
 
+class CustomSearchDeligate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+          onPressed: () {
+            query = '';
+          },
+          icon: const Icon(Icons.clear))
+    ];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          close(context, null);
+        },
+        icon: const Icon(Icons.arrow_back));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var card in noteCards.map((card) => card.title).toList()) {
+      if (card.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(card);
+      }
+    }
+    return ListView.builder(
+        itemCount: matchQuery.length,
+        itemBuilder: (context, index) {
+          var results = matchQuery[index];
+          return const ListTile();
+        });
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    return const Placeholder(color: Colors.transparent);
+  }
+}
+
 Widget cardsListView() {
   return BlocBuilder<ReadCardsCubit, ReadCardsState>(
     builder: (context, state) {
-      List<CardModel> cards =
-          BlocProvider.of<ReadCardsCubit>(context).fetchAll() ?? [];
+      noteCards = BlocProvider.of<ReadCardsCubit>(context).fetchAll() ?? [];
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: ListView.builder(
-            itemCount: cards.length,
+            itemCount: noteCards.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
-              return CardWidget(cardModel: cards[index]);
+              return CardWidget(cardModel: noteCards[index]);
             }),
       );
     },
@@ -115,7 +172,7 @@ class _ModalSheetState extends State<ModalSheet> {
                         description = val;
                       },
                     ),
-                    ColorsListView(),
+                    const ColorsListView(),
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 8),
@@ -184,6 +241,7 @@ class _ColorsListViewState extends State<ColorsListView> {
                   setState(() {
                     selectedIndex = index;
                   });
+                  BlocProvider.of<AddCardCubit>(context).color = colors[index];
                 });
           }),
     )

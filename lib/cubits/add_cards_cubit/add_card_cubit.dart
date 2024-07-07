@@ -10,7 +10,9 @@ part 'add_card_state.dart';
 class AddCardCubit extends Cubit<AddCardState> {
   AddCardCubit() : super(AddCardInitial());
 
+  int color = 0xffFFB703;
   addNote(CardModel card) {
+    card.color = color;
     emit(AddCardLoading());
     Future.delayed(const Duration(milliseconds: 500));
 
